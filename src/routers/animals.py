@@ -19,3 +19,18 @@ def get_stored_animals():
         if type(db)==MongoClient:
             db.close()
 
+
+@animals.route('/animals/wild')
+def get_stored_wild_animals():
+    db=""
+    try:
+        db = get_db()
+        _animals = db.animal_tb.find({"type":"Wild"})
+        animals = [{"id": animal["id"], "name": animal["name"], "type": animal["type"]} for animal in _animals]
+        return jsonify({"animals": animals})
+    except:
+        pass
+    finally:
+        if type(db)==MongoClient:
+            db.close()
+
